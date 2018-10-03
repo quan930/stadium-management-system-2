@@ -9,28 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SiteDAOImpl implements ISiteDAO {
+    //查询全部Site sql 语句
+    final private String selectSql = "select b.number,name,district,stadium,motionType,motionProfile,ageUp,ageLow,rent,orderNum,orders.times*b.rent as turnover from \n" +
+            "\t(select  site.number,name,district,stadium,motionType,motionProfile,ageUp,ageLow,rent,orderNum from site left join\n" +
+            "\t\t(select count(*) as orderNum,siteNumber as number from orders \n" +
+            "\t\t\twhere startTime > now() and (cancel = false or cancel is null)\n" +
+            "\t\t\tgroup by siteNumber) as orderNum\n" +
+            "\t\ton site.number = orderNum.number) as b\t\n" +
+            "\tleft join\n" +
+            "\t(select sum(a.times) as times,siteNumber as number from\n" +
+            "\t\t(select (endTime-startTime)/10000 as times,siteNumber from orders\n" +
+            "\t\t\twhere endTime < now() and (cancel = false or cancel is null)) as a\n" +
+            "\t\tgroup by siteNumber) as orders\n" +
+            "\ton orders.number = b.number ";
     @Override
-    public Site selectSiteByNumber(String number) {
+    public Site selectSiteByNumber(String number) {//场地编号
         Site site = null;
         Connection con = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select * from site left join " +
-                        "(select orderNum,money,orderNumber.number from " +
-                        "(select count(*) as orderNum,siteNumber as number from orders where siteNumber = ? and ((cancel = false or cancel is null) and startTime > now())) as orderNumber " +
-                        "left join " +
-                        "(select sum(a.money)as money,a.siteNumber as number from " +
-                        "(select (endTime-startTime)/10000*35 as money,siteNumber from orders " +
-                        "where siteNumber = ? and ((cancel = false or cancel is null) and endTime < now())) as a) as money " +
-                        "on money.number = orderNumber.number) as a " +
-                        "on site.number = a.number "+
-                        "where site.number = ?";
+        String sql = selectSql+ "where b.number = ?";
         try {
             con = DBUtil.createConnection();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,number);
-            preparedStatement.setString(2,number);
-            preparedStatement.setString(3,number);
             resultSet = preparedStatement.executeQuery();
             List<Site> pojos = select(resultSet);
             if (pojos.size()==1){
@@ -42,6 +44,155 @@ public class SiteDAOImpl implements ISiteDAO {
             DBUtil.close(con,preparedStatement,resultSet);
         }
         return site;
+    }
+
+    @Override
+    public List<Site> selectSiteByName(String name) {//场地名
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql + "where b.name = ?";
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectSiteByStadium(String stadium) {//场馆
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql + "where b.stadium = ?";
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,stadium);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectSiteByTypeAndDistrict(String type, String district) {//类别,区域
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql + "where b.motionType = ? and b.district = ?";
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,type);
+            preparedStatement.setString(2,district);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectSiteByReserveYOrN(boolean yOrN) {//是否预定
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql;
+        if (yOrN){//有预定
+            sql = selectSql + "where b.orderNum is not null";
+        }else {//没有预定
+            sql = selectSql + "where b.orderNum is null";
+        }
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectAllSiteByRent() {//租金排序
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql+"order by b.rent";
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectAllSiteByOrderNumber() {//预定量排序
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql+"order by b.orderNum desc";
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
+    public List<Site> selectAllSite() {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> pojos = new ArrayList<>();
+        String sql = selectSql;
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
     }
 
     private List<Site> select(ResultSet resultSet) throws SQLException {

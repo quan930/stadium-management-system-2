@@ -13,13 +13,6 @@ public interface IPersonnelDAO {
     Personnel selectPersonnelById(String id);
 
     /**
-     * 数据增加
-     * @param pojo 要增加的Personnel
-     * @return 成功返回1失败返回0
-     */
-//    int insert(Personnel pojo);
-
-    /**
      * 数据更新
      * @param pojo 需要更新的Personnel
      * @return 成功返回1 失败返回0

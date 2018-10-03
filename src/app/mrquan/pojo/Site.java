@@ -16,7 +16,7 @@ public class Site {
     @Override
     public String toString() {
         return "场地编号:"+number+"\t场地名称:"+name+"\t场地所属区域:"+district+"\t所属场馆:"+stadium+"\t运动类型:"+motionType
-                + "\t运动简介:"+motionProfile+"\t年龄上限:"+ageUp+"\t年龄下限:"+ageLow+"租金:"+rent+"\t订单数量:"+orderNumber+"\t营业额:"+turnover;
+                + "\t运动简介:"+motionProfile+"\t年龄上限:"+ageUp+"\t年龄下限:"+ageLow+"\t租金:"+rent+"\t订单数量:"+orderNumber+"\t营业额:"+turnover;
     }
 
     public String getNumber() {

@@ -13,15 +13,14 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Personnel pojo = null;
-        String sql="select * from personnel left join " +
-                "(select count(*) as abrogate,id from orders where id = ? and cancel = ?) as a " +
-                "on personnel.id = a.id where personnel.id=?";
+        String sql="select  personnel.id,password,name,sex,age,telephone,email,balance,district,num as abrogate,administrator,stadium from personnel left join \n" +
+                "\t(select count(*) as num,id from orders where cancel=true group by id) as a\n" +
+                "\ton personnel.id = a.id\n" +
+                "\twhere personnel.id = ?";
         try {
             con = DBUtil.createConnection();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,id);
-            preparedStatement.setBoolean(2,true);
-            preparedStatement.setString(3,id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 pojo = new Personnel();
@@ -39,15 +38,15 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
                     pojo.setBalance(balance);
                 }
                 pojo.setDistrict(resultSet.getString(9));//区域
-                pojo.setAdministrator(resultSet.getBoolean(10));//管理员
-                pojo.setStadium(resultSet.getString(11));//区域
-//                pojo.setAbrogate(resultSet.getInt(12));//违约次数
-                Integer abrogate = resultSet.getInt(12);
+//                pojo.setAbrogate(resultSet.getInt(10));
+                Integer abrogate = resultSet.getInt(10);//违约次数
                 if (resultSet.wasNull()){//为null
                     pojo.setAbrogate(null);
                 }else {
                     pojo.setAbrogate(abrogate);
                 }
+                pojo.setAdministrator(resultSet.getBoolean(11));//管理员
+                pojo.setStadium(resultSet.getString(12));//场馆
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,78 +56,34 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
         return pojo;
     }
 
-//    @Override
-//    public int insert(Personnel pojo){
-//        int yOrN = 0;
-//        Connection con = null;
-//        PreparedStatement preparedStatement = null;
-//        String sql = "insert into personnel values (?,?,?,?,?,?,?,?,?,?,?)";
-//        try {
-//            con = DBUtil.createConnection();
-//            preparedStatement = con.prepareStatement(sql);
-//            preparedStatement.setString(1,pojo.getId());
-//            preparedStatement.setString(2,pojo.getPassword());
-//            preparedStatement.setString(3,pojo.getName());
-//            preparedStatement.setBoolean(4,pojo.getSex());
-//            preparedStatement.setInt(5,pojo.getAge());
-//            preparedStatement.setString(6,pojo.getTelephone());
-//            preparedStatement.setString(7,pojo.getEmail());
-//            if (pojo.getBalance()==null){
-//                preparedStatement.setNull(8,Types.DOUBLE);
-//            }else {
-//                preparedStatement.setDouble(8,pojo.getBalance());
-//            }
-//            preparedStatement.setString(9,pojo.getDistrict());
-//            preparedStatement.setBoolean(10,pojo.getAdministrator());
-//            preparedStatement.setString(11,pojo.getStadium());
-//            yOrN = preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }finally {
-//            DBUtil.close(con,preparedStatement,null);
-//        }
-//        return yOrN;
-//    }
-
     @Override
-    public int update(Personnel pojo){
+    public int update(Personnel pojo){//有待改进
         int yOrN = 0;
         Connection con = null;
         PreparedStatement preparedStatement = null;
-        String delete = "delete from personnel where id = ?";
-        String insert = "insert into personnel values (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "update personnel set id = ?,password = ?,name = ?,sex = ?,age = ?,telephone = ?,email = ?,balance = ?,district = ?,administrator = ?,stadium = ? " +
+                "where id = ?";
         try {
             con = DBUtil.createConnection();
-            con.setAutoCommit(false);
-            preparedStatement = con.prepareStatement(delete);
-            preparedStatement.setString(1,pojo.getId());
-            preparedStatement.addBatch();
-            int del[] = preparedStatement.executeBatch();
-            if (del[0]==0){
-
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,  pojo.getId());
+            preparedStatement.setString(2,pojo.getPassword());
+            preparedStatement.setString(3,pojo.getName());
+            preparedStatement.setBoolean(4,pojo.getSex());
+            preparedStatement.setInt(5,pojo.getAge());
+            preparedStatement.setString(6,pojo.getTelephone());
+            preparedStatement.setString(7,pojo.getEmail());
+            if (pojo.getBalance()==null){
+                preparedStatement.setNull(8,Types.DOUBLE);
             }else {
-                preparedStatement = con.prepareStatement(insert);
-                preparedStatement.setString(1,  pojo.getId());
-                preparedStatement.setString(2,pojo.getPassword());
-                preparedStatement.setString(3,pojo.getName());
-                preparedStatement.setBoolean(4,pojo.getSex());
-                preparedStatement.setInt(5,pojo.getAge());
-                preparedStatement.setString(6,pojo.getTelephone());
-                preparedStatement.setString(7,pojo.getEmail());
-                if (pojo.getBalance()==null){
-                    preparedStatement.setNull(8,Types.DOUBLE);
-                }else {
-                    preparedStatement.setDouble(8,pojo.getBalance());
-                }
-                preparedStatement.setString(9,pojo.getDistrict());
-                preparedStatement.setBoolean(10,pojo.getAdministrator());
-                preparedStatement.setString(11,pojo.getStadium());
-
-                preparedStatement.addBatch();
-                preparedStatement.executeBatch();
-                con.commit();
-                yOrN = 1;
+                preparedStatement.setDouble(8,pojo.getBalance());
             }
+            preparedStatement.setString(9,pojo.getDistrict());
+            preparedStatement.setBoolean(10,pojo.getAdministrator());
+            preparedStatement.setString(11,pojo.getStadium());
+            preparedStatement.setString(12,pojo.getId());
+            preparedStatement.addBatch();
+            yOrN = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
