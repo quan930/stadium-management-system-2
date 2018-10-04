@@ -1,6 +1,8 @@
 package app.mrquan.pojo;
 
-public class Site {
+import java.io.Serializable;
+
+public class Site implements Serializable {
     private String number;
     private String name;
     private String district;//区域

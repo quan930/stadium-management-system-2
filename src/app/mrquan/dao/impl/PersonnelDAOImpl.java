@@ -57,7 +57,7 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
     }
 
     @Override
-    public int update(Personnel pojo){//有待改进
+    public int update(Personnel pojo){
         int yOrN = 0;
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -82,7 +82,6 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
             preparedStatement.setBoolean(10,pojo.getAdministrator());
             preparedStatement.setString(11,pojo.getStadium());
             preparedStatement.setString(12,pojo.getId());
-            preparedStatement.addBatch();
             yOrN = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

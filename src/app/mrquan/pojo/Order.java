@@ -5,15 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Order implements Serializable {
-    private String number;
-    private Date reservationDate;
-    private String siteNumber;
-    private Date loanDate;
+    private String number;//订单编号
+    private Date reservationDate;//预定日期
+    private String siteNumber;//预定场地编号
+    private Date loanDate;//租借日期
     private Date startTime;
     private Date endTime;
-    private Boolean onTime;
-    private String id;
-    private Boolean cancel;//new 取消true
+    private Boolean onTime;//是否按时到达
+    private String id;//顾客id
+    private Boolean cancel;//取消true
 
     @Override
     public String toString() {

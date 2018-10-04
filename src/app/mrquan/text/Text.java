@@ -4,6 +4,7 @@ import app.mrquan.dao.IPersonnelDAO;
 import app.mrquan.dao.impl.PersonnelDAOImpl;
 import app.mrquan.dao.impl.SiteDAOImpl;
 import app.mrquan.factory.DAOFactory;
+import app.mrquan.pojo.Order;
 import app.mrquan.pojo.Personnel;
 import app.mrquan.pojo.Site;
 
@@ -46,9 +47,18 @@ public class Text {
 //        for (int i = 0; i < pojos.size(); i++) {
 //            System.out.println(pojos.get(i));
 //        }
-        List<Site> pojos = DAOFactory.getISiteDAOInstance().selectSiteByName("沈阳羽毛球场");
-        for (int i = 0; i < pojos.size(); i++) {
-            System.out.println(pojos.get(i));
-        }
+//        List<Site> pojos = DAOFactory.getISiteDAOInstance().selectSiteByName("沈阳羽毛球场");
+//        for (int i = 0; i < pojos.size(); i++) {
+//            System.out.println(pojos.get(i));
+//        }
+        List<Order> pojos = DAOFactory.gitIOrderDAOInstance().selectOrderByUserAll("a00002");
+        Order order = null;
+//        for (Order o:pojos) {
+//            System.out.println(o);
+//            order = o;
+//        }
+        order = pojos.get(0);
+        int m = DAOFactory.gitIOrderDAOInstance().update(order);
+        System.out.println(m);
     }
 }
