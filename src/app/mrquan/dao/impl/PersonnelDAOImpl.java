@@ -13,7 +13,7 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Personnel pojo = null;
-        String sql="select  personnel.id,password,name,sex,age,telephone,email,balance,district,num as abrogate,administrator,stadium from personnel left join \n" +
+        final String sql="select  personnel.id,password,name,sex,age,telephone,email,balance,district,num as abrogate,administrator,stadium from personnel left join \n" +
                 "\t(select count(*) as num,id from orders where cancel=true group by id) as a\n" +
                 "\ton personnel.id = a.id\n" +
                 "\twhere personnel.id = ?";
@@ -61,7 +61,7 @@ public class PersonnelDAOImpl implements IPersonnelDAO {
         int yOrN = 0;
         Connection con = null;
         PreparedStatement preparedStatement = null;
-        String sql = "update personnel set id = ?,password = ?,name = ?,sex = ?,age = ?,telephone = ?,email = ?,balance = ?,district = ?,administrator = ?,stadium = ? " +
+        final String sql = "update personnel set id = ?,password = ?,name = ?,sex = ?,age = ?,telephone = ?,email = ?,balance = ?,district = ?,administrator = ?,stadium = ? " +
                 "where id = ?";
         try {
             con = DBUtil.createConnection();

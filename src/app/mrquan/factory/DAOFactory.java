@@ -3,7 +3,7 @@ package app.mrquan.factory;
 import app.mrquan.dao.*;
 import app.mrquan.dao.impl.*;
 
-public class DAOFactory {
+public class DAOFactory {//656
     public static ISiteDAO getISiteDAOInstance(){
         return new SiteDAOImpl();
     }

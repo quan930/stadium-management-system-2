@@ -19,3 +19,23 @@ select b.number,name,district,stadium,motionType,motionProfile,ageUp,ageLow,rent
 		group by siteNumber) as orders
 	on orders.number = b.number
 --	where b.number = 'aaa0001'
+
+
+-- 年龄 余额 违约次数
+select personnel.id,personnel.age,personnel.balance,ab.abrogate from personnel left join
+	(select count(*) as abrogate,id from orders where cancel=true
+	group by id) as ab
+	on personnel.id = ab.id
+-- 	where id = 'a00002'
+
+
+-- 年龄 余额 违约次数 当前订单
+select ap.age,ap.balance,ap.abrogate,num.orderNum from (select personnel.id,personnel.age,personnel.balance,ab.abrogate from personnel left join
+		(select count(*) as abrogate,id from orders where cancel=true
+		group by id) as ab
+		on personnel.id = ab.id) as ap
+			left join (select count(*) as orderNum,id from orders
+			where startTime > now() and cancel is not true
+			group by id) as num
+		on ap.id = num.id
+-- 		where ap.id = 'a00004'

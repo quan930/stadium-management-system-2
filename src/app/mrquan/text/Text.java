@@ -39,8 +39,8 @@ public class Text {
 ////        System.out.println(siteDAO.selectSiteByNumber("baa0002"));
 //
 //        long startTime = System.currentTimeMillis();
-////        List<Site> pojos = siteDAO.selectAllSite();
-//        List<Site> pojos = siteDAO.selectSiteByName("沈阳羽毛球场地");
+//        List<Site> pojos = DAOFactory.getISiteDAOInstance().selectAllSite();
+////        List<Site> pojos = DAOFactory.getISiteDAOInstance().selectSiteByName("沈阳羽毛球场地");
 //        long endTime = System.currentTimeMillis();
 //
 //        System.out.println(endTime-startTime);
@@ -51,14 +51,22 @@ public class Text {
 //        for (int i = 0; i < pojos.size(); i++) {
 //            System.out.println(pojos.get(i));
 //        }
-        List<Order> pojos = DAOFactory.gitIOrderDAOInstance().selectOrderByUserAll("a00002");
+        List<Order> pojos = DAOFactory.gitIOrderDAOInstance().selectOrderByUser("a00002");
         Order order = null;
-//        for (Order o:pojos) {
-//            System.out.println(o);
+        for (Order o:pojos) {
+            System.out.println(o);
+            o.setId("a00004");
 //            order = o;
-//        }
-        order = pojos.get(0);
-        int m = DAOFactory.gitIOrderDAOInstance().update(order);
-        System.out.println(m);
+        }
+//        order = pojos.get(0);
+//        pojos.get(0).setId("a00004");
+//        pojos.get(0).setNumber("b00002201809151314");
+//        pojos.get(1).setId("a00004");
+//        pojos.get(1).setNumber("b00002201809160117");
+        long start = System.currentTimeMillis();
+        String s = DAOFactory.gitIOrderDAOInstance().add(pojos);
+        long end = System.currentTimeMillis();
+        System.out.println(end-start);
+        System.out.println(s);
     }
 }

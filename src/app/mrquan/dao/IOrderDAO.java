@@ -20,11 +20,11 @@ public interface IOrderDAO {
     List<Order> selectOrderByUserAll(String id);
 
     /**
-     * 添加单一订单 返回预定情况
-     * @param order 要增加的order对象
-     * @return 成功返回 "success" 。。。。。。。。。。。。。。。
+     * 添加多个订单 返回预定情况
+     * @param orders 要增加的 订单集合
+     * @return  成功size=0 失败返回失败的订单 编号及失败原因
      */
-    String add(Order order);
+    String add(List<Order> orders);
 
     /**
      * 数据更新 取消订单
