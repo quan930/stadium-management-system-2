@@ -4,10 +4,15 @@ import app.mrquan.dao.IPersonnelDAO;
 import app.mrquan.dao.impl.PersonnelDAOImpl;
 import app.mrquan.dao.impl.SiteDAOImpl;
 import app.mrquan.factory.DAOFactory;
+import app.mrquan.factory.ServiceFactory;
 import app.mrquan.pojo.Order;
 import app.mrquan.pojo.Personnel;
 import app.mrquan.pojo.Site;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class Text {
@@ -51,22 +56,26 @@ public class Text {
 //        for (int i = 0; i < pojos.size(); i++) {
 //            System.out.println(pojos.get(i));
 //        }
-        List<Order> pojos = DAOFactory.gitIOrderDAOInstance().selectOrderByUser("a00002");
-        Order order = null;
-        for (Order o:pojos) {
-            System.out.println(o);
-            o.setId("a00004");
-//            order = o;
-        }
-//        order = pojos.get(0);
-//        pojos.get(0).setId("a00004");
-//        pojos.get(0).setNumber("b00002201809151314");
-//        pojos.get(1).setId("a00004");
-//        pojos.get(1).setNumber("b00002201809160117");
-        long start = System.currentTimeMillis();
-        String s = DAOFactory.gitIOrderDAOInstance().add(pojos);
-        long end = System.currentTimeMillis();
-        System.out.println(end-start);
-        System.out.println(s);
+//        List<Order> pojos = DAOFactory.gitIOrderDAOInstance().selectOrderByUser("a00002");
+//        Order order = null;
+//        for (Order o:pojos) {
+//            System.out.println(o);
+//            o.setId("a00004");
+////            order = o;
+//        }
+////        order = pojos.get(0);
+////        pojos.get(0).setId("a00004");
+////        pojos.get(0).setNumber("b00002201809151314");
+////        pojos.get(1).setId("a00004");
+////        pojos.get(1).setNumber("b00002201809160117");
+//        long start = System.currentTimeMillis();
+//        String s = DAOFactory.gitIOrderDAOInstance().add(pojos);
+//        long end = System.currentTimeMillis();
+//        System.out.println(end-start);
+//        System.out.println(s);
+//        List<Site> sites = DAOFactory.getISiteDAOInstance().selectSiteByStadiumTurnover("沈阳奥体中心");
+//        for (Site s:sites) {
+//            System.out.println(s);
+//        }
     }
 }

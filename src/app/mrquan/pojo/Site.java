@@ -14,11 +14,12 @@ public class Site implements Serializable {
     private Double rent;//租金
     private Integer orderNumber;//当前订单数量
     private Double turnover;//营业额
+    private Byte[] picture;//场地图片
 
     @Override
     public String toString() {
         return "场地编号:"+number+"\t场地名称:"+name+"\t场地所属区域:"+district+"\t所属场馆:"+stadium+"\t运动类型:"+motionType
-                + "\t运动简介:"+motionProfile+"\t年龄上限:"+ageUp+"\t年龄下限:"+ageLow+"\t租金:"+rent+"\t订单数量:"+orderNumber+"\t营业额:"+turnover;
+                + "\t运动简介:"+motionProfile+"\t年龄上限:"+ageUp+"\t年龄下限:"+ageLow+"\t租金:"+rent+"\t订单数量:"+orderNumber+"\t营业额:"+turnover+"\t图片大小:"+picture.length;
     }
 
     public String getNumber() {
@@ -107,5 +108,13 @@ public class Site implements Serializable {
 
     public void setTurnover(Double turnover) {
         this.turnover = turnover;
+    }
+
+    public Byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Byte[] picture) {
+        this.picture = picture;
     }
 }

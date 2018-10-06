@@ -54,6 +54,30 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
+    public List<Order> selectOrderByStadiumAll(String stadium) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Order> pojos = new ArrayList<>();
+        String sql = "select * from orders inner join\n" +
+                "\t(select number as siteNumber from site where stadium = ?) as sites\n" +
+                "\ton orders.siteNumber = sites.siteNumber\n" +
+                "\torder by orders.startTime";//查询场馆订单 开始时间排序
+        try {
+            con = DBUtil.createConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,stadium);
+            resultSet = preparedStatement.executeQuery();
+            pojos = select(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(con,preparedStatement,resultSet);
+        }
+        return pojos;
+    }
+
+    @Override
     public String add(List<Order> orders) {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -92,7 +116,7 @@ public class OrderDAOImpl implements IOrderDAO {
 
                 orderNum = resultSet.getInt(4);
             }
-            System.out.println("年龄:"+age+"\t余额:"+balance+"\t违约次数:"+abrogate+"\t当前订单:"+orderNum);
+//            System.out.println("年龄:"+age+"\t余额:"+balance+"\t违约次数:"+abrogate+"\t当前订单:"+orderNum);
             if (abrogate>3){//违约
                 reserve.append("违约次数过多!");
                 return reserve.toString();
@@ -179,7 +203,7 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
-    public int update(Order order) {//取消订单
+    public int update(String number) {//取消订单
         int yOrN = 0;
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -187,7 +211,7 @@ public class OrderDAOImpl implements IOrderDAO {
         try {
             con = DBUtil.createConnection();
             preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1,order.getNumber());
+            preparedStatement.setString(1,number);
             yOrN = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

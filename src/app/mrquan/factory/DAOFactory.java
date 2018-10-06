@@ -7,9 +7,11 @@ public class DAOFactory {//656
     public static ISiteDAO getISiteDAOInstance(){
         return new SiteDAOImpl();
     }
+
     public static IPersonnelDAO gitIPersonnelDAOInstance(){
         return new PersonnelDAOImpl();
     }
+
     public static IOrderDAO gitIOrderDAOInstance(){
         return new OrderDAOImpl();
     }

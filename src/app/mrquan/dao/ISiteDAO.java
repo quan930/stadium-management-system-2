@@ -4,7 +4,7 @@ import app.mrquan.pojo.Site;
 
 import java.util.List;
 
-public interface ISiteDAO {
+public interface ISiteDAO {//查询全部测试
     /**
      * 根据 场地编号 返回 site 对象
      * @param number 要查找对象的id
@@ -20,11 +20,18 @@ public interface ISiteDAO {
     List<Site> selectSiteByName(String name);
 
     /**
-     * 根据 场馆名字返回 site对象集合
+     * 根据 场馆名字返回 site对象集合 按照预定量排序
      * @param stadium 要查找对象的场馆名字 stadium
      * @return 返回site对象集合,没有 size = 0
      */
     List<Site> selectSiteByStadium(String stadium);
+
+    /**
+     * 根据 场馆名字返回 site对象集合 按照营业额排序
+     * @param stadium 要查找对象的场馆名字 stadium
+     * @return 返回site对象集合,没有 size = 0
+     */
+    List<Site> selectSiteByStadiumTurnover(String stadium);
 
     /**
      * 根据 适合运动类型 和 区域 返回 site对象集合
@@ -58,4 +65,11 @@ public interface ISiteDAO {
      * @return site 集合,没 size = 0
      */
     List<Site> selectAllSite();
+
+    /**
+     * 添加场地
+     * @param site 要添加的场地对象
+     * @return 成功返回1 否则返回0
+     */
+    int insert(Site site);
 }
