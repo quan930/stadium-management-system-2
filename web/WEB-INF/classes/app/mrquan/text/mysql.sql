@@ -21,7 +21,7 @@ select b.number,name,district,stadium,motionType,motionProfile,ageUp,ageLow,rent
 --	where b.number = 'aaa0001'
 
 
--- 年龄 余额 违约次数
+-- 年龄 余额 违约次数 当前订单费用
 select personnel.id,personnel.age,personnel.balance,ab.abrogate from personnel left join
 	(select count(*) as abrogate,id from orders where cancel=true
 	group by id) as ab

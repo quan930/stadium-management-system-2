@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+      <title>$Title$</title>
   </head>
   <body>
   $END$
+  <%--<img src="<%%>/auctionImg.jpg" width="270" height="185" alt="图片" />--%>
+  <img src="image">
   </body>
 </html>

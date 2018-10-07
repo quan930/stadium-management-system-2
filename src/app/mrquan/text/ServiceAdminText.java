@@ -60,22 +60,4 @@ public class ServiceAdminText {
         }
 
     }
-    static private Byte[] picture(String pathName) throws IOException {
-        byte[] headOne;
-        File file = new File(pathName);
-        FileInputStream fis = new FileInputStream(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
-        byte[] b = new byte[1000];
-        int n;
-        while ((n = fis.read(b)) != -1) {
-            bos.write(b, 0, n);
-        }
-        fis.close();
-        bos.close();
-        headOne = bos.toByteArray();
-        Byte[] headTwo = new Byte[headOne.length];
-        int i = 0;
-        for (byte c : headOne) headTwo[i++] = c;
-        return headTwo;
-    }
 }
