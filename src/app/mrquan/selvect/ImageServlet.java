@@ -10,11 +10,12 @@ import java.io.OutputStream;
 @WebServlet("/image")
 public class ImageServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        System.out.println("asdadad");
-        byte[] bytes = DataProcessing.toPrimitives(ServiceFactory.getIClientServiceInstance().listSiteByRent().get(0).getPicture());
+        String id = request.getParameter("id");
+        Byte[] bytes =(Byte[])request.getSession().getAttribute(id);
+        byte[] bytes1= DataProcessing.toPrimitives(bytes);
         response.setContentType("image/jpeg");
         OutputStream outs = response.getOutputStream();
-        outs.write(bytes);
+        outs.write(bytes1);
         outs.flush();
         outs.close();
     }

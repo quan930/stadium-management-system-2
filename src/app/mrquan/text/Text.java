@@ -77,5 +77,8 @@ public class Text {
 //        for (Site s:sites) {
 //            System.out.println(s);
 //        }
+        for (int i = 6; i <= 22 ; i++) {
+            System.out.println("<option value=\""+String.format("%02d",i)+":00\">"+String.format("%02d",i)+":00</option>");
+        }
     }
 }

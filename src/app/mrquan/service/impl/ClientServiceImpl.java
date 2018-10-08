@@ -6,7 +6,9 @@ import app.mrquan.pojo.Personnel;
 import app.mrquan.pojo.Site;
 import app.mrquan.service.IClientService;
 
-import java.util.List;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ClientServiceImpl implements IClientService {
     @Override
@@ -50,6 +52,27 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
+    public Map<String, Set<String>> listSportsInit() {
+        Map<String,Set<String>> map = new HashMap<>();
+        Set<String> name = new HashSet<>();//场地名称
+        Set<String> stadium = new HashSet<>();//场馆名称
+        Set<String> type = new HashSet<>();//场地类别
+        Set<String> district = new HashSet<>();//场地区域
+        List<Site> pojos = DAOFactory.getISiteDAOInstance().selectAllSite();
+        for (int i = 0; i < pojos.size(); i++) {
+            name.add(pojos.get(i).getName());
+            stadium.add(pojos.get(i).getStadium());
+            type.add(pojos.get(i).getMotionType());
+            district.add(pojos.get(i).getDistrict());
+        }
+        map.put("name",name);
+        map.put("stadium",stadium);
+        map.put("type",type);
+        map.put("district",district);
+        return map;
+    }
+
+    @Override
     public int changePersonnel(Personnel personnel) {
         return DAOFactory.gitIPersonnelDAOInstance().update(personnel);
     }
@@ -61,6 +84,15 @@ public class ClientServiceImpl implements IClientService {
 
     @Override
     public String reserve(List<Order> orders) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        for (Order o:orders) {
+            calendar.add(Calendar.MINUTE,1);//订单编号时间+1 防止订单重复
+            o.setNumber(o.getSiteNumber()+new SimpleDateFormat("yyyyMMddHHmm").format(calendar.getTime()));//订单编号
+        }
+        for (Order o:orders) {
+            System.out.println(o);
+        }
         return DAOFactory.gitIOrderDAOInstance().add(orders);
     }
 }

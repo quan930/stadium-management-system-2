@@ -5,6 +5,8 @@ import app.mrquan.pojo.Personnel;
 import app.mrquan.pojo.Site;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface IClientService {
     /**
@@ -61,6 +63,12 @@ public interface IClientService {
      * @return 返回Order对象集合，没有size为0
      */
     List<Order> listOrders(String id);
+
+    /**
+     * 用于前端初始化选择列表
+     * @return map
+     */
+    Map<String,Set<String>> listSportsInit();
 
     /**
      * 更改顾客信息
