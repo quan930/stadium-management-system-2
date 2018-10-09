@@ -73,6 +73,9 @@
                     break;
                 case "1" :
                     out.print("<iframe src=\"\" width=\"100%\" height=\"100%\" frameborder=\"0\">");
+                    break;
+                default:
+                    break;
             }
 
         %>

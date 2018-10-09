@@ -7,6 +7,6 @@ import app.mrquan.service.ILoginService;
 public class LoginServiceImpl implements ILoginService {
     @Override
     public Personnel login(String id) {
-        return DAOFactory.gitIPersonnelDAOInstance().selectPersonnelById(id);
+        return DAOFactory.getIPersonnelDAOInstance().selectPersonnelById(id);
     }
 }

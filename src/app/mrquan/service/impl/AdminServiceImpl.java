@@ -11,7 +11,7 @@ import java.util.List;
 public class AdminServiceImpl implements IAdminService {
     @Override
     public List<Order> listOrder(String stadium) {
-        return DAOFactory.gitIOrderDAOInstance().selectOrderByStadiumAll(stadium);
+        return DAOFactory.getIOrderDAOInstance().selectOrderByStadiumAll(stadium);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public int changePersonnel(Personnel personnel) {
-        return DAOFactory.gitIPersonnelDAOInstance().update(personnel);
+        return DAOFactory.getIPersonnelDAOInstance().update(personnel);
     }
 
     @Override

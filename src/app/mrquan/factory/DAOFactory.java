@@ -8,11 +8,11 @@ public class DAOFactory {//656
         return new SiteDAOImpl();
     }
 
-    public static IPersonnelDAO gitIPersonnelDAOInstance(){
+    public static IPersonnelDAO getIPersonnelDAOInstance(){
         return new PersonnelDAOImpl();
     }
 
-    public static IOrderDAO gitIOrderDAOInstance(){
+    public static IOrderDAO getIOrderDAOInstance(){
         return new OrderDAOImpl();
     }
 }

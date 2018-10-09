@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 public class Text {
@@ -77,8 +78,9 @@ public class Text {
 //        for (Site s:sites) {
 //            System.out.println(s);
 //        }
-        for (int i = 6; i <= 22 ; i++) {
-            System.out.println("<option value=\""+String.format("%02d",i)+":00\">"+String.format("%02d",i)+":00</option>");
-        }
+//        for (int i = 6; i <= 22 ; i++) {
+//            System.out.println("<option value=\""+String.format("%02d",i)+":00\">"+String.format("%02d",i)+":00</option>");
+//        }
+        Calendar calendar = Calendar.getInstance();
     }
 }

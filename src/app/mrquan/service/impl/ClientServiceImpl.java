@@ -43,12 +43,12 @@ public class ClientServiceImpl implements IClientService {
 
     @Override
     public List<Order> findOrdersToBeUsed(String id) {
-        return DAOFactory.gitIOrderDAOInstance().selectOrderByUser(id);
+        return DAOFactory.getIOrderDAOInstance().selectOrderByUser(id);
     }
 
     @Override
     public List<Order> listOrders(String id) {
-        return DAOFactory.gitIOrderDAOInstance().selectOrderByUserAll(id);
+        return DAOFactory.getIOrderDAOInstance().selectOrderByUserAll(id);
     }
 
     @Override
@@ -74,12 +74,12 @@ public class ClientServiceImpl implements IClientService {
 
     @Override
     public int changePersonnel(Personnel personnel) {
-        return DAOFactory.gitIPersonnelDAOInstance().update(personnel);
+        return DAOFactory.getIPersonnelDAOInstance().update(personnel);
     }
 
     @Override
     public int cancelReserve(String number) {
-        return DAOFactory.gitIOrderDAOInstance().update(number);
+        return DAOFactory.getIOrderDAOInstance().update(number);
     }
 
     @Override
@@ -93,6 +93,6 @@ public class ClientServiceImpl implements IClientService {
         for (Order o:orders) {
             System.out.println(o);
         }
-        return DAOFactory.gitIOrderDAOInstance().add(orders);
+        return DAOFactory.getIOrderDAOInstance().add(orders);
     }
 }
