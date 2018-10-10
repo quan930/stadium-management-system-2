@@ -10,6 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="shortcut icon" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <title>顾客端</title>
     <style>
         .outer {
@@ -37,11 +38,15 @@
         .top{
             text-align:center;
         }
+        #submitRight{
+            float: right;
+        }
     </style>
 </head>
 <body>
 <div class="outer_1">
     <th class="p">客户端</th>
+    <form id="submitRight" action="switch"><input type="submit" value="切换账户"></form>
     <div class="top">
         <h1>综合体育管理系统</h1>
     </div>
@@ -50,9 +55,16 @@
 <div class="outer">
     <div class="left">
         <form action="client" method="get" enctype="multipart/form-data" accept-charset="UTF-8" >
-            <input type="submit" name="menu" value="预订"><br>
-            <input type="submit" name="menu" value="个人"><br>
-            <input type="submit" name="menu" value="历史订单"><br>
+            <input type="hidden" name="menu" value="reserve">
+            <input type="submit" value="预订">
+        </form>
+        <form action="client" method="get" enctype="multipart/form-data" accept-charset="UTF-8" >
+            <input type="hidden" name="menu" value="oneself">
+            <input type="submit" value="个人">
+        </form>
+        <form action="client" method="get" enctype="multipart/form-data" accept-charset="UTF-8" >
+            <input type="hidden" name="menu" value="order">
+            <input type="submit" value="历史订单">
         </form>
     </div>
     <div class="right">
@@ -62,13 +74,13 @@
                 fun="1";
             }
             switch (fun){
-                case "预订":
+                case "reserve":
                     out.print("<iframe src=\"clientReserve.jsp\" width=\"100%\" height=\"100%\" frameborder=\"0\">");
                     break;
-                case "个人":
+                case "oneself":
                     out.print("<iframe src=\"clientOneself.jsp\" width=\"100%\" height=\"100%\" frameborder=\"0\">");
                     break;
-                case "历史订单":
+                case "order":
                     out.print("<iframe src=\"clientOrder.jsp\" width=\"100%\" height=\"100%\" frameborder=\"0\">");
                     break;
                 case "1" :

@@ -90,9 +90,9 @@ public class ClientServiceImpl implements IClientService {
             calendar.add(Calendar.MINUTE,1);//订单编号时间+1 防止订单重复
             o.setNumber(o.getSiteNumber()+new SimpleDateFormat("yyyyMMddHHmm").format(calendar.getTime()));//订单编号
         }
-        for (Order o:orders) {
-            System.out.println(o);
-        }
+//        for (Order o:orders) {
+//            System.out.println(o);
+//        }
         return DAOFactory.getIOrderDAOInstance().add(orders);
     }
 }

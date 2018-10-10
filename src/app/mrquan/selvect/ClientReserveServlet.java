@@ -2,6 +2,7 @@ package app.mrquan.selvect;
 
 import app.mrquan.factory.ServiceFactory;
 import app.mrquan.pojo.Order;
+import app.mrquan.pojo.Personnel;
 import app.mrquan.pojo.Site;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ import java.util.List;
 @WebServlet("/clientReserve")
 public class ClientReserveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id =(String)request.getSession().getAttribute("id");
+        Personnel pojo = (Personnel) request.getSession().getAttribute("user");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("content-type","text/html;charset=UTF-8");
         PrintWriter out=response.getWriter();
@@ -50,7 +51,7 @@ public class ClientReserveServlet extends HttpServlet {
                     order.setLoanDate( new SimpleDateFormat("yyyy-MM-dd").parse(date));
                     order.setStartTime(start);//开始时间
                     order.setEndTime(end);//结束时间
-                    order.setId(id);//顾客id
+                    order.setId(pojo.getId());//顾客id
                     orders.add(order);
                 }else {
                     yOrN = false;

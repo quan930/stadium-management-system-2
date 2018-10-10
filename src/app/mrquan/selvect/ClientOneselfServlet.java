@@ -15,9 +15,7 @@ import java.sql.SQLException;
 @WebServlet("/clientOneself")
 public class ClientOneselfServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Personnel pojo = null;
-        String id = (String) request.getSession().getAttribute("id");
-        pojo = ServiceFactory.getILoginServiceInstance().login(id);
+        Personnel pojo = (Personnel) request.getSession().getAttribute("user");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("content-type","text/html;charset=UTF-8");
         PrintWriter out=response.getWriter();

@@ -1,6 +1,7 @@
 package app.mrquan.selvect;
 
 import app.mrquan.factory.ServiceFactory;
+import app.mrquan.pojo.Personnel;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,17 +28,17 @@ public class ClientOrderServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = (String) request.getSession().getAttribute("id");
+        Personnel pojo = (Personnel) request.getSession().getAttribute("user");
         String select = request.getParameter("select");
         if ("allList".equals(select)){
             request.setAttribute("fun","allList");
-            request.setAttribute("lists",ServiceFactory.getIClientServiceInstance().listOrders(id));
+            request.setAttribute("lists",ServiceFactory.getIClientServiceInstance().listOrders(pojo.getId()));
             request.getRequestDispatcher("clientOrder.jsp").forward(request,response);
         }else {
             //待使用订单
             if ("list".equals(select)){
                 request.setAttribute("fun","list");
-                request.setAttribute("lists",ServiceFactory.getIClientServiceInstance().findOrdersToBeUsed(id));
+                request.setAttribute("lists",ServiceFactory.getIClientServiceInstance().findOrdersToBeUsed(pojo.getId()));
                 request.getRequestDispatcher("clientOrder.jsp").forward(request,response);
             }
         }

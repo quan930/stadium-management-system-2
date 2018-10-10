@@ -42,12 +42,12 @@
                         out.print("<table border=\"1\" align=\"center\">");
                         out.print("<tr><th colspan=\"3\">"+sites.get(0).getStadium()+"营业额统计</th></tr>");
                         out.print("<tr><td>场地编号</td><td>场地名字</td><td>营业额</td></tr>");
-                        double rent = 0;
+                        double turnover = 0;
                         for (Site s:sites) {
-                            out.print("<tr><td>"+s.getNumber()+"</td><td>"+s.getName()+"</td><td>"+s.getRent()+"</td></tr>");
-                            rent += s.getRent();
+                            out.print("<tr><td>"+s.getNumber()+"</td><td>"+s.getName()+"</td><td>"+s.getTurnover()+"</td></tr>");
+                            turnover += s.getTurnover();
                         }
-                        out.print("<tr><td colspan=\"3\">总计:"+rent+"</td></tr>");
+                        out.print("<tr><td colspan=\"3\">总计:"+turnover+"</td></tr>");
                         out.print("</table>");
                         break;
                     default:

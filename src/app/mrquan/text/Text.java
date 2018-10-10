@@ -81,6 +81,7 @@ public class Text {
 //        for (int i = 6; i <= 22 ; i++) {
 //            System.out.println("<option value=\""+String.format("%02d",i)+":00\">"+String.format("%02d",i)+":00</option>");
 //        }
-        Calendar calendar = Calendar.getInstance();
+//        Calendar calendar = Calendar.getInstance();
+        System.out.println(1==1?2:3);
     }
 }

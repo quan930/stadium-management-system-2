@@ -3,6 +3,7 @@ package app.mrquan.dao.impl;
 import app.mrquan.dao.ISiteDAO;
 import app.mrquan.pojo.Site;
 import app.mrquan.util.DBUtil;
+import app.mrquan.util.DataProcessing;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -238,6 +239,7 @@ public class SiteDAOImpl implements ISiteDAO {
             for(int j = 0; j < site.getPicture().length; j++) {
                 bytes[j] = site.getPicture()[j];
             }
+//            preparedStatement.setBytes(10,DataProcessing.toPrimitives(site.getPicture()));
             preparedStatement.setBytes(10,bytes);
             yOrN = preparedStatement.executeUpdate();
         } catch (SQLException e) {
